@@ -1,7 +1,3 @@
-" |_| \_|\___|\___/ \_/ |_|_| |_| |_| 
-"                                     
-" ----------------------------------------------------- 
-
 set nocompatible            " disable compatibility to old-time vi
 set showmatch               " show matching 
 set ignorecase              " case insensitive 
@@ -15,33 +11,31 @@ set shiftwidth=4            " width for autoindents
 set autoindent              " indent a new line the same amount as the line just typed
 set number                  " add line numbers
 set wildmode=longest,list   " get bash-like tab completions
-" set cc=82                   " set an 80 column border for good coding style
-filetype plugin indent on   "allow auto-indenting depending on file type
+filetype plugin indent on   " allow auto-indenting depending on file type
 syntax on                   " syntax highlighting
 set mouse=a                 " enable mouse click
 set clipboard=unnamedplus   " using system clipboard
 filetype plugin on
-" set cursorline              " highlight current cursorline
 set ttyfast                 " Speed up scrolling in Vim
-" set spell                 " enable spell check (may need to download language package)
-" set noswapfile            " disable creating swap file
-" set backupdir=~/.cache/vim " Directory to store backup files.
+set noswapfile              " disable creating swap file
+
 
 
 
 call plug#begin()
- Plug 'preservim/nerdtree' "nerd tree
- Plug 'andweeb/presence.nvim' "discord presence
- Plug 'sainnhe/gruvbox-material' "theme
- Plug 'Townk/vim-autoclose'
- Plug 'sheerun/vim-polyglot'
+ Plug 'preservim/nerdtree'             "nerd tree
+ Plug 'andweeb/presence.nvim'          "discord presence
+ Plug 'sainnhe/gruvbox-material'       "theme
+ Plug 'Townk/vim-autoclose'            "auto-closing
+ Plug 'sheerun/vim-polyglot'           " syntax enlighting
+
  " LSP and completion plugins
  Plug 'neovim/nvim-lspconfig'          " LSP configuration
  Plug 'hrsh7th/nvim-cmp'               " Auto-completion framework
  Plug 'hrsh7th/cmp-nvim-lsp'           " LSP source for nvim-cmp
  Plug 'hrsh7th/cmp-buffer'             " Buffer source for nvim-cmp
  Plug 'hrsh7th/cmp-path'               " Path source for nvim-cmp
- Plug 'L3MON4D3/LuaSnip'
+ Plug 'L3MON4D3/LuaSnip'               " Snippet
 
  Plug 'vim-scripts/DoxygenToolkit.vim'
 call plug#end()
@@ -50,6 +44,7 @@ call plug#end()
 if has('termguicolors')
     set termguicolors
 endif
+
 set background=dark
 
 let g:gruvbox_material_background = 'soft'
@@ -61,7 +56,7 @@ let g:lightline = {'colorscheme' : 'gruvbox_material'}
 
 nnoremap <C-a> :NERDTreeToggle<CR>
 
-function! ToggleComment() "self expla
+function! ToggleComment() " function to add/remove # at the begining of a line
   if getline('.') =~ '^#'
     execute 'normal ^xx'
   else
@@ -72,7 +67,7 @@ endfunction
 
 noremap <C-;> :call ToggleComment()<CR>
 
-function! ToggleCommentVisual()
+function! ToggleCommentVisual() " fuction to add/remove # at the begining of each line of a selection
   if getline("'<") =~ '^#'
     '<,'>s/^#//
   else
@@ -86,7 +81,13 @@ vnoremap <C-,> :<C-u>call ToggleCommentVisual()<CR>gv
 let g:DoxygenToolkit_authorName = 'Marwan'
 let g:DoxygenToolkit_briefTag_pre = '\brief '
 let g:DoxygenToolkit_paramTag_pre = '\param '
-let g:DoxygenToolkit_returnTag = '\return'
+let g:DoxygenToolkit_returnTag = '\return '
+
+
+#
+# since this session is meant to match my hyprland configuration,
+# it will probably not look good on yours
+#
 
 hi NonText ctermbg=none guibg=NONE
 hi Normal guibg=NONE ctermbg=NONE
@@ -125,7 +126,7 @@ cmp.setup({
     },
 })
 
--- Common on_attach function for LSP servers
+-- on_attach function for LSP servers
 local on_attach = function(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
     vim.keymap.set('n', 'gd', vim.lsp.buf.definition, bufopts)
@@ -135,7 +136,7 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
 end
 
--- Set up language servers
+-- Set up language servers, look up for the language you are using yourself
 lspconfig.pyright.setup({ on_attach = on_attach }) -- Python
 lspconfig.clangd.setup({ on_attach = on_attach })  -- C/C++
 lspconfig.rust_analyzer.setup({ on_attach = on_attach }) -- Rust
