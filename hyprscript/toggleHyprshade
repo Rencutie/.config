@@ -1,0 +1,15 @@
+filter="blue-light-filter"
+
+if [ "$filter" != "off" ] ;then
+    if [ -z $(hyprshade current) ] ;then
+        hyprshade on $filter
+        notify-send "$filter activated"
+    else
+        notify-send "Hyprshade deactivated"
+        hyprshade off
+    fi
+else
+    if [ -z $(hyprshade current) ] ;then
+        hyprshade off
+    fi
+fi
