@@ -84,10 +84,10 @@ let g:DoxygenToolkit_paramTag_pre = '\param '
 let g:DoxygenToolkit_returnTag = '\return '
 
 
-#
-# since this session is meant to match my hyprland configuration,
-# it will probably not look good on yours
-#
+"
+" Since this session is meant to match my hyprland configuration,
+" it will probably not look good on yours
+"
 
 hi NonText ctermbg=none guibg=NONE
 hi Normal guibg=NONE ctermbg=NONE
